@@ -4,8 +4,8 @@ Title: Take vectors
 Version: 0.1.0
 Author: Stanislav Lavrov
 Maintainer: Stanislav Lavrov <2slavrov@gmail.com>
-Description: Package let functions take vectors and lists as arguments
-    Some functions cannot take and return vectors nad lists. This package helps them to do that!
+Description: Package let functions take vectors as arguments
+    Some functions cannot take and return vectors. This package helps them to do that!
 License: FREE
 Encoding: UTF-8
 LazyData: true

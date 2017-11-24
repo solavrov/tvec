@@ -4,12 +4,10 @@
 \alias{getLen}
 \title{Check that all params have length = 1 or same length > 1}
 \usage{
-getLen(..., atoms = c(""))
+getLen(...)
 }
 \arguments{
-\item{...}{Any number of atoms, vectors, lists}
-
-\item{atoms}{Vector of class names that lengths are assumed to be 1}
+\item{...}{Any number of vectors}
 }
 \value{
 Maximum length of params

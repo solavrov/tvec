@@ -4,14 +4,12 @@
 \alias{getElem}
 \title{Return element "i" of "a" assuming that "a" has infinite tail filled with its last element}
 \usage{
-getElem(a, i, atoms = c(""))
+getElem(a, i)
 }
 \arguments{
-\item{a}{Any atom, vector, list}
+\item{a}{Any vector}
 
 \item{i}{Index of value}
-
-\item{atoms}{Vector of class names that cannot be broken apart by index referencing}
 }
 \value{
 Value with index i

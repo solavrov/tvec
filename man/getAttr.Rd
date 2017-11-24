@@ -12,7 +12,7 @@ getAttr(obj, attrName)
 \item{attrName}{Attribute name as character}
 }
 \value{
-Attribute of object
+Attribute value or values
 }
 \description{
 Return value of object's attribute

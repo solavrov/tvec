@@ -4,12 +4,10 @@
 \alias{getLens}
 \title{Return vector of lengths of list elements}
 \usage{
-getLens(l, atoms = c(""))
+getLens(l)
 }
 \arguments{
 \item{l}{List}
-
-\item{atoms}{Vector of class names that lengths are assumed to be 1}
 }
 \value{
 Vector of lengths

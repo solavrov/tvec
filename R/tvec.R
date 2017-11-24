@@ -2,19 +2,18 @@
 #' Return vector of lengths of list elements
 #'
 #' @param l List
-#' @param atoms Vector of class names that lengths are assumed to be 1
 #'
 #' @return Vector of lengths
 #' @export
-getLens <- function(l, atoms = c("")) {
+getLens <- function(l) {
 
   lens <- numeric()
 
   for (i in 1:length(l)) {
-    if (any(class(l[[i]]) == atoms)) {
-      lens[i] <- 1
-    } else {
+    if (is.vector(l[[i]])) {
       lens[i] <- length(l[[i]])
+    } else {
+      lens[i] <- 1
     }
   }
 
@@ -25,14 +24,13 @@ getLens <- function(l, atoms = c("")) {
 
 #' Check that all params have length = 1 or same length > 1
 #'
-#' @param ... Any number of atoms, vectors, lists
-#' @param atoms Vector of class names that lengths are assumed to be 1
+#' @param ... Any number of vectors
 #'
 #' @return Maximum length of params
 #' @export
-getLen <- function(..., atoms = c("")) {
+getLen <- function(...) {
 
-  lens <- getLens(list(...), atoms)
+  lens <- getLens(list(...))
   maxLen <- max(lens)
 
   if (!all(lens == 1 | lens == maxLen))
@@ -45,19 +43,14 @@ getLen <- function(..., atoms = c("")) {
 
 #' Return element "i" of "a" assuming that "a" has infinite tail filled with its last element
 #'
-#' @param a Any atom, vector, list
+#' @param a Any vector
 #' @param i Index of value
-#' @param atoms Vector of class names that cannot be broken apart by index referencing
 #'
 #' @return Value with index i
 #' @export
-getElem <- function(a, i, atoms = c("")) {
+getElem <- function(a, i) {
 
-  if (any(class(a) == atoms)) {
-
-    b <- a
-
-  } else {
+  if (is.vector(a)) {
 
     len <- length(a)
 
@@ -65,6 +58,10 @@ getElem <- function(a, i, atoms = c("")) {
       b <- a[[i]]
     else
       b <- a[[len]]
+
+  } else {
+
+    b <- a
 
   }
 
@@ -78,34 +75,30 @@ getElem <- function(a, i, atoms = c("")) {
 #' @param obj Object or list of objects
 #' @param attrName Attribute name as character
 #'
-#' @return Attribute of object
+#' @return Attribute value or values
 #' @export
 getAttr <- function(obj, attrName) {
 
-  if (is.atomic(obj)) {
+  if (is.object(obj)) {
 
-    a <- NA
+    a <- obj[[attrName]]
+    if (is.null(a)) a <- NA
+
+  } else if (is.list(obj)) {
+
+    a <- list()
+    len <- length(obj)
+
+    for (i in 1:len) {
+      a[[i]] <- obj[[i]][[attrName]]
+      if (is.null(a[[i]])) a[[i]] <- NA
+    }
+
+    if (all(mapply(is.atomic, a))) a <- mapply(c, a)
 
   } else {
 
-    if (class(obj) != "list") {
-
-      a <- obj[[attrName]]
-      if (is.null(a)) a <- NA
-
-    } else {
-
-      a <- list()
-      len <- length(obj)
-
-      for (i in 1:len) {
-        a[[i]] <- obj[[i]][[attrName]]
-        if (is.null(a[[i]])) a[[i]] <- NA
-      }
-
-      if (all(mapply(is.atomic, a))) a <- mapply(c, a)
-
-    }
+    a <- NA
 
   }
 
@@ -114,19 +107,18 @@ getAttr <- function(obj, attrName) {
 }
 
 
-#' Apply function to arguments that can be vectors and lists
+#' Apply function to arguments that can be vectors
 #'
 #' @param fun Function name
-#' @param ... Argumetns that can be vectors and lists
-#' @param atoms Vector of class names that cannot be broken apart by index referencing
+#' @param ... Argumetns that can be vectors
 #'
-#' @return Function's result that can be vector or list
+#' @return Function's result or results as vector
 #' @export
-applyFun <- function(fun, ..., atoms = c("")) {
+applyFun <- function(fun, ...) {
 
   result <- list()
 
-  len <- getLen(..., atoms = atoms)
+  len <- getLen(...)
 
   params <- list(...)
 
@@ -135,7 +127,7 @@ applyFun <- function(fun, ..., atoms = c("")) {
     localParams <- list()
 
     for (j in 1:length(params)) {
-      localParams[[j]] <- getElem(params[[j]], i, atoms)
+      localParams[[j]] <- getElem(params[[j]], i)
     }
 
     result[[i]] <- do.call(fun, localParams)
@@ -147,6 +139,5 @@ applyFun <- function(fun, ..., atoms = c("")) {
   return (result)
 
 }
-
 
 

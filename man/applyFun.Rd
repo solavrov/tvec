@@ -2,20 +2,18 @@
 % Please edit documentation in R/tvec.R
 \name{applyFun}
 \alias{applyFun}
-\title{Apply function to arguments that can be vectors and lists}
+\title{Apply function to arguments that can be vectors}
 \usage{
-applyFun(fun, ..., atoms = c(""))
+applyFun(fun, ...)
 }
 \arguments{
 \item{fun}{Function name}
 
-\item{...}{Argumetns that can be vectors and lists}
-
-\item{atoms}{Vector of class names that cannot be broken apart by index referencing}
+\item{...}{Argumetns that can be vectors}
 }
 \value{
-Function's result that can be vector or list
+Function's result or results as vector
 }
 \description{
-Apply function to arguments that can be vectors and lists
+Apply function to arguments that can be vectors
 }

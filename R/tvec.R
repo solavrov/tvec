@@ -1,4 +1,15 @@
 
+#' Return TRUE if variable is vector or Date
+#'
+#' @param v Any variable
+#'
+#' @return TRUE if variable is vector or Date
+#' @export
+isVector <- function(v) {
+  is.vector(v) || (class(v) == "Date")
+}
+
+
 #' Return vector of lengths of list elements
 #'
 #' @param l List
@@ -10,7 +21,7 @@ getLens <- function(l) {
   lens <- numeric()
 
   for (i in 1:length(l)) {
-    if (is.vector(l[[i]])) {
+    if (isVector(l[[i]])) {
       lens[i] <- length(l[[i]])
     } else {
       lens[i] <- 1
@@ -50,7 +61,7 @@ getLen <- function(...) {
 #' @export
 getElem <- function(a, i) {
 
-  if (is.vector(a)) {
+  if (isVector(a)) {
 
     len <- length(a)
 
